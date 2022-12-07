@@ -9,25 +9,6 @@ for index, line in enumerate(lines):
         args = line.split(" ")
         command = args[1].strip()
 
-        if command.__contains__("ls"):
-            print("ls")
-            counter = 1
-
-            while True:
-                if index + counter >= len(lines):
-                    break
-                elif lines[index + counter].startswith("$"):
-                    break
-
-                content = lines[index + counter]
-
-                if not content.startswith("dir"):
-                    file_size = int(content.split(" ")[0])
-                    print("--", path[-1], file_size)
-                    # directories[path[-1]] = directories[path[-1]] + int(file_size)
-                    directories[path[-1]] += file_size
-                counter += 1
-
         if command.__contains__("cd"):
             directory = args[2].strip()
 
@@ -36,5 +17,19 @@ for index, line in enumerate(lines):
             else:
                 directories.update({directory: 0})
                 path.append(directory)
+    else:
+        if not line.startswith("dir"):
+            file_size = int(line.split(" ")[0])
+            print("--", path[-1], file_size)
 
+            for i in range(1, len(path) + 1):
+                directories[path[-i]] += file_size
+
+result = 0
 print(directories)
+
+for key in directories:
+    if directories[key] <= 100000:
+        result += directories[key]
+
+print(result)
