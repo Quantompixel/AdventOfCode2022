@@ -37,8 +37,13 @@ for index, line in enumerate(lines):
 result = 0
 print(directories)
 
-for key in directories:
-    if directories[key] <= 100000:
-        result += directories[key]
+space_to_free_up = 30_000_000 - (70_000_000 - directories["/"])
+smallest_dir = 70_000_000
 
-print(result)
+for key in directories:
+    directory = directories[key]
+    if directory > space_to_free_up:
+        if directory < smallest_dir:
+            smallest_dir = directory
+
+print(smallest_dir)
