@@ -4,6 +4,15 @@ lines = input_file.readlines()
 path = []
 directories = {}
 
+
+def path_to_string(path_array):
+    path_string = ""
+    for element in path_array:
+        path_string += element
+
+    return path_string
+
+
 for index, line in enumerate(lines):
     if line.startswith("$"):
         args = line.split(" ")
@@ -15,15 +24,15 @@ for index, line in enumerate(lines):
             if directory.__contains__(".."):
                 path.pop()
             else:
-                directories.update({directory: 0})
                 path.append(directory)
+                directories.update({path_to_string(path): 0})
     else:
         if not line.startswith("dir"):
             file_size = int(line.split(" ")[0])
-            print("--", path[-1], file_size)
 
-            for i in range(1, len(path) + 1):
-                directories[path[-i]] += file_size
+            for i in range(len(path)):
+                key = path_to_string(path[0:i + 1])
+                directories[key] += file_size
 
 result = 0
 print(directories)
